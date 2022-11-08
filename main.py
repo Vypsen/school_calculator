@@ -18,7 +18,7 @@ def addDigit_7():
     addDigit(7)
 
 def addDigit_8():
-    addDigit(9)
+    addDigit(8)
 
 def addDigit_9():
     addDigit(9)
