@@ -9,11 +9,13 @@ numResult = 0
 numInput = 0
 event = ''
 
+# добавление опредленной цифры в поле ввода 
 def addDigit(digit):
     global numInput
     numInput = numInput*10+digit
     result.configure(text=numInput)
 
+# получение определенной цифры
 def addDigit_7():
     addDigit(7)
 
@@ -44,6 +46,7 @@ def addDigit_3():
 def addDigit_0():
     addDigit(0)
 
+# вызов подсчёта запомнинание прошлого арифметического действия
 def plus():
     count()
     global event 
@@ -64,9 +67,11 @@ def multiply():
     global event
     event = 'multiply'
 
+# функция подсчёта
 def count():
     global event
     global numInput
+    # если ещё не было никаких действий
     global numResult
     if event == '' and numResult == 0:
         numResult = numInput
@@ -85,7 +90,7 @@ def count():
         numInput = 0
         result.configure(text=numResult)
 
-
+# создание элементов интерфейса
 result = Label(body, text='0', bg='white', font=('WhitehallCyr', 20))
 b_plus = Button(body, text='+', bg='#BBBBBB', width=5, height=3, fg='black', command=plus)
 b_min = Button(body, text='-', bg='#BBBBBB', width=5, height=3, fg='black', command=minus)
@@ -104,7 +109,7 @@ b_zero = Button(body, text='0', bg='#BBBBBB', width=5, height=3, fg='black', com
 b_cleat = Button(body, text='C', bg='#BBBBBB', width=5, height=3, fg='black')
 b_count = Button(body, text='==', bg='#BBBBBB', width=5, height=3, fg='black', command=count)
 
-
+# добавление элементов интерфейса
 result.grid(row=0, column=0, columnspan=4)
 b_plus.grid(row=1, column=0)
 b_min.grid(row=1, column=1)
