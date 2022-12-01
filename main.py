@@ -1,130 +1,51 @@
-from tkinter import *
+import pygame as pg 
 
-body = Tk()
-body.title('calculator')
-body.geometry('200x350')
-body['bg'] = 'white'
+pg.display.set_caption('snake')
+WIDTH = 600
+HEIGTH = 600
 
-numResult = 0
-numInput = 0
-event = ''
+screen = pg.display.set_mode((WIDTH, HEIGTH))
 
-# добавление опредленной цифры в поле ввода 
-def addDigit(digit):
-    global numInput
-    numInput = numInput*10+digit
-    result.configure(text=numInput)
+class Body():
+    def __init__(self, size):
+        self.x = WIDTH/2 
+        self.y = HEIGTH/2
+        self.len = 4
+        self.size = size
+        self.is_life = True
+        self.up = False
+        self.down = False
+        self.left = False
+        self.right = False
+        
+        self.list_of_body = [[self.x, self.y + size],
+                             [self.x, self.y + size*2],
+                             [self.x, self.y + size*3],
+                             [self.x, self.y + size*4]]
 
-# получение определенной цифры
-def addDigit_7():
-    addDigit(7)
+        def is_dead(self):
+            if ([self.x, self.y] in self.list_of_body) or self.x == WIDTH or self.x == 0 or self.y == HEIGTH or self.y == 0:
+                self.is_life = False
+        
+            
+            
 
-def addDigit_8():
-    addDigit(8)
+size = 10
+snake = Body(size)
 
-def addDigit_9():
-    addDigit(9)
+is_run = True
 
-def addDigit_4():
-    addDigit(4)
+while is_run:
 
-def addDigit_5():
-    addDigit(5)
+    screen.fill((219, 24, 110))
 
-def addDigit_6():
-    addDigit(6)
+    pg.draw.rect(screen, (0, 0, 0), (snake.x, snake.y, size, size))
+    
+    for i in snake.list_of_body:
+        pg.draw.rect(screen, (0, 0, 0), (i[0], i[1], size, size))
 
-def addDigit_1():
-    addDigit(1)
 
-def addDigit_2():
-    addDigit(2)
+    pg.display.update()
 
-def addDigit_3():
-    addDigit(3)
 
-def addDigit_0():
-    addDigit(0)
-
-# вызов подсчёта запомнинание прошлого арифметического действия
-def plus():
-    count()
-    global event 
-    event = 'plus'
-
-def minus():
-    count()
-    global event 
-    event = 'minus'
-
-def divide():
-    count()
-    global event
-    event = 'divide'
-
-def multiply():
-    count()
-    global event
-    event = 'multiply'
-
-# функция подсчёта
-def count():
-    global event
-    global numInput
-    # если ещё не было никаких действий
-    global numResult
-    if event == '' and numResult == 0:
-        numResult = numInput
-        numInput = 0
-        result.configure(text=numResult)
-    else:
-        if event == 'plus':
-            numResult += numInput
-        elif event == 'minus':
-            numResult -= numInput
-        elif event == 'multiply':
-            numResult *= numInput
-        elif event == 'divide':
-            numResult /= numInput
-        event = ''
-        numInput = 0
-        result.configure(text=numResult)
-
-# создание элементов интерфейса
-result = Label(body, text='0', bg='white', font=('WhitehallCyr', 20))
-b_plus = Button(body, text='+', bg='#BBBBBB', width=5, height=3, fg='black', command=plus)
-b_min = Button(body, text='-', bg='#BBBBBB', width=5, height=3, fg='black', command=minus)
-b_multiply = Button(body, text='*', bg='#BBBBBB', width=5, height=3, fg='black', command=multiply)
-b_divide = Button(body, text='/', bg='#BBBBBB', width=5, height=3, fg='black', command=divide)
-b_sev = Button(body, text='7', bg='#BBBBBB', width=5, height=3, fg='black', command=addDigit_7)
-b_eight = Button(body, text='8', bg='#BBBBBB', width=5, height=3, fg='black', command=addDigit_8)
-b_nin = Button(body, text='9', bg='#BBBBBB', width=5, height=3, fg='black', command=addDigit_9)
-b_four = Button(body, text='4', bg='#BBBBBB', width=5, height=3, fg='black', command=addDigit_4)
-b_five = Button(body, text='5', bg='#BBBBBB', width=5, height=3, fg='black', command=addDigit_5)
-b_six = Button(body, text='6', bg='#BBBBBB', width=5, height=3, fg='black', command=addDigit_6)
-b_one = Button(body, text='1', bg='#BBBBBB', width=5, height=3, fg='black', command=addDigit_1)
-b_two = Button(body, text='2', bg='#BBBBBB', width=5, height=3, fg='black', command=addDigit_2)
-b_three = Button(body, text='3', bg='#BBBBBB', width=5, height=3, fg='black', command=addDigit_3)
-b_zero = Button(body, text='0', bg='#BBBBBB', width=5, height=3, fg='black', command=addDigit_0)
-b_cleat = Button(body, text='C', bg='#BBBBBB', width=5, height=3, fg='black')
-b_count = Button(body, text='==', bg='#BBBBBB', width=5, height=3, fg='black', command=count)
-
-# добавление элементов интерфейса
-result.grid(row=0, column=0, columnspan=4)
-b_plus.grid(row=1, column=0)
-b_min.grid(row=1, column=1)
-b_multiply.grid(row=1, column=2)
-b_divide.grid(row=1, column=3)
-b_sev.grid(row=2, column=0)
-b_eight.grid(row=2, column=1)
-b_nin.grid(row=2, column=2)
-b_four.grid(row=3, column=0)
-b_five.grid(row=3, column=1)
-b_six.grid(row=3, column=2)
-b_one.grid(row=4, column=0)
-b_two.grid(row=4, column=1)
-b_three.grid(row=4, column=2)
-b_zero.grid(row=5, column=1)
-b_count.grid(row=2, column=3)
-
-body.mainloop()
+pg.quit()
